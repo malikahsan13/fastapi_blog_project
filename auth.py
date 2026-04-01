@@ -35,3 +35,10 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
     if not check_password_hash(db_user.password, user.password):
         raise HTTPException(status_code=400, detail="Invalid email or password")
         
+    token = utils.create_token(db_user.id)
+    
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "user": {"id":db_user.id, "username":db_user.username},
+    }

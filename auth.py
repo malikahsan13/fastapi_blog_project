@@ -32,10 +32,16 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
     if not db_user:
         raise HTTPException(status_code=400, detail="Invalid email or password")
     
-    if not check_password_hash(db_user.password, user.password):
+    try:
+        stored_password = str(db_user.password)
+        
+        if not check_password_hash(stored_password, user.password):
+            raise HTTPException(status_code=400, detail="Invalid email or password")
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid email or password")
         
-    token = utils.create_token(db_user.id)
+    user_id = getattr(db_user, 'id')
+    token = utils.create_token(user_id)
     
     return {
         "access_token": token,

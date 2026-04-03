@@ -76,4 +76,17 @@ def delete_post(post_id: int, db: Session = Depends(get_db),current_user: models
         "detail":"Post deleted successfully"
     }
     
-@router.get("/{post_id}")
+@router.get("/{post_id}", response_model=schemas.PostOut)
+def get_post(post_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(utils.get_current_user)):
+    post = db.query(models.Post).filter(models.Post.id == post_id).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    if post.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    return schemas.PostOut(
+        id= post.id,
+        title= post.title,
+        content= post.content,
+        author= current_user.username
+    )

@@ -61,7 +61,7 @@ def update_post(post_id : int, updated_post: schemas.PostCreate, db : Session = 
         author= current_user.username
     )
     
-@router.delete("/post_id")
+@router.delete("/{post_id}")
 def delete_post(post_id: int, db: Session = Depends(get_db),current_user: models.User = Depends(utils.get_current_user)):
     post =db.query(models.Post).filter(models.Post.id == post_id).first()
     if not post:
@@ -75,3 +75,5 @@ def delete_post(post_id: int, db: Session = Depends(get_db),current_user: models
     return {
         "detail":"Post deleted successfully"
     }
+    
+@router.get("/{post_id}")

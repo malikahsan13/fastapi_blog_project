@@ -33,6 +33,7 @@ A modern, RESTful blog application built with FastAPI, featuring user authentica
 - **SQLAlchemy** (v2.0.41): Powerful ORM for database operations
 - **Pydantic** (v2.11.7): Data validation using Python type annotations
 - **Uvicorn** (v0.34.3): ASGI server for running FastAPI applications
+- **uv** (v0.9.18): Lightning-fast Python package manager and project manager
 
 ### Security & Authentication
 - **python-jose** (v3.5.0): JWT token creation and validation
@@ -50,8 +51,17 @@ A modern, RESTful blog application built with FastAPI, featuring user authentica
 ## 📋 Prerequisites
 
 - Python 3.11 or higher
-- pip (Python package manager)
+- **uv** (recommended) or pip for package management
 - Git (for version control)
+
+### Installing uv (if not already installed)
+```bash
+# On Windows with PowerShell
+irm https://astral.sh/uv/install.ps1 | iex
+
+# On Mac/Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
 ## 🚦 Getting Started
 
@@ -63,25 +73,34 @@ git clone <your-repo-url>
 cd fastapi_blog_project
 ```
 
-2. **Create virtual environment**
+2. **Create virtual environment and install dependencies using uv**
+
+**Automatic setup (creates venv and installs dependencies):**
+```bash
+uv sync
+```
+
+**Manual setup:**
+```bash
+# Create virtual environment
+uv venv
+
+# Activate virtual environment
+# Windows:
+.venv\Scripts\activate
+
+# Mac/Linux:
+source .venv/bin/activate
+
+# Install dependencies
+uv pip install -r requirements.txt
+```
+
+**Alternative: Using pip**
 ```bash
 python -m venv .venv
-```
-
-3. **Activate virtual environment**
-
-**Windows:**
-```bash
-.venv\Scripts\activate
-```
-
-**Mac/Linux:**
-```bash
-source .venv/bin/activate
-```
-
-4. **Install dependencies**
-```bash
+.venv\Scripts\activate  # Windows
+# source .venv/bin/activate  # Mac/Linux
 pip install -r requirements.txt
 ```
 
